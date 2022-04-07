@@ -18,7 +18,7 @@ int main(void) {
     }
     if (divider == number) {
           puts("number is prime");
-        }
+    }
     else {
       puts("number is not prime");
     }
