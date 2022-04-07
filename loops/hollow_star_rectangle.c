@@ -1,18 +1,21 @@
 #include <stdio.h>
 
-int main(void) {
-  const int W = 4;
-  const int H = 4;
-  int blank = 0;
+int main (void) {
+    const int W = 7;
+    const int H = 6;
 
-  for (int i = 0; i < W; i++) {
-    printf("*");
-  }
-  for (int i = 1; i < H; i++) {
-    printf("\n*");
-  }
-  for (int i = 1; i < W; i++) {
-    printf("*");
-  }
-  return 0;
+    for (int i = 0; i < W; i++) {
+        printf("*");
+    }
+    printf("\n");
+    for (int i = 2; i < H; i++) {
+        printf("*");
+        for (int i = 0; i < W - 2; i++) {
+          printf(" ");
+        }
+        printf("*\n");
+    }
+    for (int i = 0; i < W; i++) {
+        printf("*");
+    }
 }
