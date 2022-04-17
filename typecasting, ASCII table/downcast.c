@@ -8,5 +8,5 @@ int main (void) {
 
     changed_num = initial_num;
 
-    printf("Decimal: %f Integer: %d", initial_num, changed_num);
+    printf("Decimal: %f Integer: %d", initial_num - changed_num, changed_num);
 }
