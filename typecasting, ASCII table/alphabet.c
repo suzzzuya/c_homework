@@ -1,13 +1,15 @@
 #include <stdio.h>
 int main (void) {
-    char uppercase = 65; // Letter A
-    char lowercase = 97; // Letter a
+    const char uppercase = 'A'; // 65
+    const char lowercase = 'a'; // 97
 
-    for (int i = 0; i != 26 ; i++, uppercase++, lowercase++) {
-        printf("%c %c", uppercase, lowercase);
-        
-        if (i < 25) {   // comma
-            printf(" , "); 
+    for (int i = 0; i < 26; i++) {
+        printf("%c ", uppercase + i);
+        printf("%c", lowercase + i);
+        if (i < 25) {
+            printf(", ");
+        } else {
+            printf(".");
         }
     }
 }
