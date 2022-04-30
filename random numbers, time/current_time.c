@@ -9,6 +9,6 @@ int main() {
     int minutes = time(0) / 60 % 60;
     int seconds = time(0) % 60;
 
-    printf("%d:%d:%d", hours, minutes, seconds);
+    printf("%02d:%02d:%02d", hours, minutes, seconds);
     return 0;
 }
