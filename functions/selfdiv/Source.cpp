@@ -9,15 +9,15 @@ int main(void) {
 }
 
 int selfdiv(int n) {
-	int copyOfN = n;
-	int lastDigit = n % 10;
+	int tmp = n;
+	int digit = n % 10;
 
-	while (n > 0) {
-		if (lastDigit == 0 || copyOfN % lastDigit != 0) {
+	while (tmp > 0) {
+		tmp /= 10;
+		if (digit == 0 || n % digit != 0) {
 			return 0;
 		}
-		n = n / 10;
-		lastDigit = n % 10;
+		digit = n % 10;
 	}
 	return 1;
 }
