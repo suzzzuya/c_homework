@@ -14,12 +14,12 @@ int main(void) {
 
 int draw_symbol_line(char symbol, int length, int is_vertical) {
 	if (symbol > 32 && symbol != 127 && length > 0) {
-		if (is_vertical > 1 || is_vertical < 1) {
+		if (is_vertical == 0) {
 			for (int i = 0; i < length; i++) {
 				printf("%c", symbol);
 			}
 		}
-		else {
+		else if (is_vertical == 1) {
 			for (int i = 0; i < length; i++) {
 				printf("%c", symbol);
 				if (i < length - 1) {
