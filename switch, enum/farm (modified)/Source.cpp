@@ -27,62 +27,76 @@ int main(void) {
         }
         print_main_menu(balance, seeds, grown_seeds);
         scanf(" %c", &choice);
-        if (choice == 'B' || choice == 'b') {
+
+        switch (choice) {
+        case 'B':
+        case 'b':
             print_shop_menu();
             scanf(" %c", &choice);
-
             if (choice == 'B' || choice == 'b') {
                 puts("Enter amount:");
                 scanf("%d", &amount_to_buy);
                 if (amount_to_buy <= 0 || balance - amount_to_buy * SEEDS_PRICE_TO_BUY < 0) {
                     puts("Incorrect input.");
+                    continue;
                 } else {
                     balance = balance - amount_to_buy * SEEDS_PRICE_TO_BUY;
                     seeds = seeds + amount_to_buy;
+                    continue;
                 }
-            } else if (choice == 'E' || choice == 'e') {
-                continue;
-            } else {
-                puts("Incorrect input.");
-            }
-        } else if (choice == 'S' || choice == 's') {
+                break;
+        case 'S':
+        case 's':
             print_market_menu(grown_seeds);
             scanf(" %c", &choice);
-
             if (choice == 'S' || choice == 's') {
                 puts("Enter amount:");
                 scanf("%d", &amount_to_sell);
                 if (amount_to_sell > grown_seeds || amount_to_sell <= 0) {
                     puts("Incorrect input.");
+                    continue;
                 } else {
                     grown_seeds = grown_seeds - amount_to_sell;
                     balance = balance + amount_to_sell * SEEDS_PRICE_TO_SELL;
+                    continue;
                 }
             } else if (choice == 'E' || choice == 'e') {
                 continue;
             } else {
                 puts("Incorrect input.");
+                continue;
             }
-        } else if (choice == 'G' || choice == 'g') {
+            break;
+        case 'G':
+        case 'g':
             print_garden_menu();
             scanf(" %c", &choice);
-
             if (choice == 'W' || choice == 'w') {
                 printf("You have watered: %d seeds\n", seeds);
+                continue;
             } else if (choice == 'G' || choice == 'g') {
                 grown_seeds = seeds + grown_seeds;
                 seeds = 0;
                 printf("You have gathered %d seeds.\n", grown_seeds);
+                continue;
             } else if (choice == 'E' || choice == 'e') {
                 continue;
             } else {
                 puts("Incorrect input.");
+                continue;
             }
-        } else if (choice != 'e' && choice != 'E') {
+            break;
+        case 'E':
+        case 'e':
+            break;
+        default:
             puts("Incorrect input.");
+            continue;
+            break;
+            }
         }
+        return 0;
     }
-    return 0;
 }
 
 void print_main_menu(float balance, int seeds, int grown_seeds) {
