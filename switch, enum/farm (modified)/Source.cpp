@@ -38,11 +38,9 @@ int main(void) {
                 scanf("%d", &amount_to_buy);
                 if (amount_to_buy <= 0 || balance - amount_to_buy * SEEDS_PRICE_TO_BUY < 0) {
                     puts("Incorrect input.");
-                    continue;
                 } else {
                     balance = balance - amount_to_buy * SEEDS_PRICE_TO_BUY;
                     seeds = seeds + amount_to_buy;
-                    continue;
                 }
                 break;
         case 'S':
@@ -54,17 +52,13 @@ int main(void) {
                 scanf("%d", &amount_to_sell);
                 if (amount_to_sell > grown_seeds || amount_to_sell <= 0) {
                     puts("Incorrect input.");
-                    continue;
                 } else {
                     grown_seeds = grown_seeds - amount_to_sell;
                     balance = balance + amount_to_sell * SEEDS_PRICE_TO_SELL;
-                    continue;
                 }
             } else if (choice == 'E' || choice == 'e') {
-                continue;
             } else {
                 puts("Incorrect input.");
-                continue;
             }
             break;
         case 'G':
@@ -80,10 +74,8 @@ int main(void) {
                 printf("You have gathered %d seeds.\n", grown_seeds);
                 continue;
             } else if (choice == 'E' || choice == 'e') {
-                continue;
             } else {
                 puts("Incorrect input.");
-                continue;
             }
             break;
         case 'E':
@@ -95,8 +87,8 @@ int main(void) {
             break;
             }
         }
-        return 0;
     }
+    return 0;
 }
 
 void print_main_menu(float balance, int seeds, int grown_seeds) {
