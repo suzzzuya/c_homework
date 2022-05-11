@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-enum charCategory {
+enum CharCategory {
 	ALPHABET,
 	NUMBER,
 	PUNCTUATION,
@@ -8,32 +8,30 @@ enum charCategory {
 	OTHER
 };
 
-charCategory char_category(char c);
+CharCategory char_category(char c);
 
 int main(void) {
 	printf("%d", char_category('2'));
 	return 0;
 }
 
-charCategory char_category(char c) {
-	if (c < 32 && c != 127) {
+CharCategory char_category(char c) {
+	if (c < ' ' && c != 127) {
 		return NON_PRINTABLE;
-	} else if (c > 47 && c < 58) {
+	} else if (c >= 0 && c <= 9) {
 		return NUMBER;
-	} else if ((c > 64 && c < 91) || (c > 96 && c < 123)) {
+	} else if ((c >= 'A' && c <= 'Z') || (c > 'a' && c < 'z')) {
 		return ALPHABET;
 	}
 	switch (c) {
-		case 33:
-		case 44:
-		case 46:
-		case 58:
-		case 59:
-		case 63:
+		case '!':
+		case '.':
+		case ',':
+		case ';':
+		case ':':
+		case '?':
 			return PUNCTUATION;
-			break;
 		default:
 			return OTHER;
-			break;
 	}
 }
