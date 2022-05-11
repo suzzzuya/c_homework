@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 enum BMIResult {
-	UNDERWEIGTH,
+	UNDERWEIGHT,
 	NORMAL,
 	OVERWEIGHT
 };
@@ -20,7 +20,7 @@ BMIResult bmi(float weight, float height) {
 	if (bmiScore >= 18.5 && bmiScore <= 25) {
 		return NORMAL;
 	} else if (bmiScore < 18.5) {
-		return UNDERWEIGTH;
+		return UNDERWEIGHT;
 	} else if (bmiScore > 25) {
 		return OVERWEIGHT;
 	}
