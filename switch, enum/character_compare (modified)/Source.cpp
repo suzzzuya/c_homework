@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 enum ComparisonResult {
 	EQUAL_SAME_CASE,
@@ -24,22 +25,13 @@ ComparisonResult char_icompare(char a, char b) {
 		return EQUAL_SAME_CASE;
 	}
 
-	if (a >= 'A' && a <= 'Z' && b >= 'a' && b <= 'z') {
-		a += DIFFERENCE;
-		if (a == b) {
-			return EQUAL_DIFFERENT_CASE;
-		}
-	}
-
-	if (b >= 'A' && b <= 'Z' && a >= 'a' && a <= 'z') {
-		b += DIFFERENCE;
-		if (b == a) {
-			return EQUAL_DIFFERENT_CASE;
-		}
-	}
-
 	if ((a < 'A' || a > 'Z' && a < 'a' || a > 'z') || (b < 'A' || b > 'Z' && b < 'a' || b > 'z')) {
 		return NON_ALPHA;
 	}
+
+	if (abs(a - b) == DIFFERENCE) {
+		return EQUAL_DIFFERENT_CASE;
+	}
+
 	return NOT_EQUAL;
 }
