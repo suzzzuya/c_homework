@@ -15,6 +15,7 @@ float arr_avg(int arr[], int size) {
 	float result = 0;
 	for (int i = 0; i < size; i++) {
 		sum += arr[i];
-	} result = sum / size;
+	} 
+	result = sum / size;
 	return result;
 }

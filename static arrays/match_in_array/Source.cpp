@@ -15,5 +15,6 @@ int find_num(int arr[], int size, int number) {
 		if (number == arr[i]) {
 			return i;
 		}
-	}	return -1;
+	}
+	return -1;
 }
