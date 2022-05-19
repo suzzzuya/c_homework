@@ -17,6 +17,7 @@ int find_smallest(int arr[], const int size) {
 	for (int i = 0; i < size; i++) {
 		if (smallest > arr[i]) {
 			smallest = arr[i];
-		};
-	} return smallest;
+		}
+	} 
+	return smallest;
 }
