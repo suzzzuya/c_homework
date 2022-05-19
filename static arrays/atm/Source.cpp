@@ -14,9 +14,9 @@ int main(void) {
     float deposit_amount = 0;
     float withdraw_amount = 0;
 
-    const float logs_size = 10;
+    const int LOGS_SIZE = 10;
     int index = 0;
-    float logs_array[10] = { 0 };
+    float logs_array[LOGS_SIZE] = { 0 };
 
     puts("WELCOME TO THE BEST ATM\n");
 
@@ -35,7 +35,13 @@ int main(void) {
                 printf("You have deposited %.2f $\n", deposit_amount);
                 balance = deposit_amount + balance;
                 logs_array[index] = deposit_amount;
-                index++;
+                if (index > 10) {
+                    for (int i = 1; i < LOGS_SIZE; i++) {
+                        logs_array[i - 1] = logs_array[i];
+                    }
+                } else {
+                    index++;
+                }
             }
             break;
         case 'W':
@@ -48,12 +54,18 @@ int main(void) {
                 printf("You have withdrawn %.2f $\n", withdraw_amount);
                 balance = balance - withdraw_amount;
                 logs_array[index] = -withdraw_amount;
-                index++;
+                if (index > 10) {
+                    for (int i = 1; i < LOGS_SIZE; i++) {
+                        logs_array[i - 1] = logs_array[i];
+                    }
+                } else {
+                    index++;
+                }
             }
             break;
         case 'L':
         case 'l':
-            print_logs(logs_array, logs_size);
+            print_logs(logs_array, LOGS_SIZE);
             break;
         case 'B':
         case 'b':
@@ -78,7 +90,14 @@ void print_menu() {
 }
 
 void print_logs(float arr[], int size) {
-    for (int i = 0; i < size, arr[i] != 0; i++) {
-        printf("%f\n", arr[i]);
-    }
+    puts("LOGS\n");
+    for (int i = 0; i < size && arr[i] != 0; i++) {
+        if (arr[i] < 0) {
+            printf("Withdrawn: %.2f $\n", arr[i]);
+        } else if (arr[i] > 0) {
+            printf("Deposited: %.2f $\n", arr[i]);
+        } else {
+            puts("ERROR");
+        }
+    } printf("\n");
 }
