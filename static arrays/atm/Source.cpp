@@ -4,6 +4,7 @@
 
 void print_menu();
 void print_logs(float arr[], int size);
+int check_max(float arr[], int actual_size, int max_size);
 
 int main(void) {
     float balance = 5000;
@@ -15,7 +16,7 @@ int main(void) {
     float withdraw_amount = 0;
 
     const int LOGS_SIZE = 10;
-    int index = 0;
+    int length = 0;
     float logs_array[LOGS_SIZE] = { 0 };
 
     puts("WELCOME TO THE BEST ATM\n");
@@ -30,17 +31,14 @@ int main(void) {
             puts("Enter amount, please.");
             scanf(" %f", &deposit_amount);
             if (deposit_amount <= 0) {
-                puts("Wrong input.");
+                puts("Wrong input.\n");
             } else {
                 printf("You have deposited %.2f $\n", deposit_amount);
-                balance = deposit_amount + balance;
-                logs_array[index] = deposit_amount;
-                if (index > 10) {
-                    for (int i = 1; i < LOGS_SIZE; i++) {
-                        logs_array[i - 1] = logs_array[i];
-                    }
-                } else {
-                    index++;
+                balance = balance + deposit_amount;
+                logs_array[length] = deposit_amount;
+                check_max(logs_array, length, LOGS_SIZE);
+                if (check_max(logs_array, length, LOGS_SIZE) == 0) {
+                    length++;
                 }
             }
             break;
@@ -49,17 +47,14 @@ int main(void) {
             puts("Enter amount to withdraw, please.");
             scanf("%f", &withdraw_amount);
             if (withdraw_amount <= 0 || withdraw_amount > balance + LOAN) {
-                puts("Wrong input.");
+                puts("Wrong input.\n");
             } else {
                 printf("You have withdrawn %.2f $\n", withdraw_amount);
                 balance = balance - withdraw_amount;
-                logs_array[index] = -withdraw_amount;
-                if (index > 10) {
-                    for (int i = 1; i < LOGS_SIZE; i++) {
-                        logs_array[i - 1] = logs_array[i];
-                    }
-                } else {
-                    index++;
+                logs_array[length] = -withdraw_amount;
+                check_max(logs_array, length, LOGS_SIZE);
+                if (check_max(logs_array, length, LOGS_SIZE) == 0) {
+                    length++;
                 }
             }
             break;
@@ -70,9 +65,9 @@ int main(void) {
         case 'B':
         case 'b':
             if (balance < 0) {
-                printf("Loan: %.2f\n", -balance);
+                printf("Loan: %.2f $\n", -balance);
             } else {
-                printf("Balance: %.2f\n", balance);
+                printf("Balance: %.2f $\n", balance);
             }
             break;
         }
@@ -87,6 +82,16 @@ void print_menu() {
     puts("[B]alance");
     puts("[L]ogs");
     puts("[E]xit");
+}
+
+int check_max(float arr[], int actual_size, int max_size) {   
+    if (actual_size > max_size) {
+        for (int i = 1; i < max_size; i++) {
+            arr[i - 1] = arr[i];
+        }
+        return 1;
+    }
+    return 0;
 }
 
 void print_logs(float arr[], int size) {
