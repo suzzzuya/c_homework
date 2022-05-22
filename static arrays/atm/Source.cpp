@@ -26,7 +26,7 @@ int main(void) {
         scanf(" %c", &user_input);
 
         switch (user_input) {
-        case 'D':
+        case 'D':  
         case 'd':
             puts("Enter amount, please.");
             scanf(" %f", &deposit_amount);
@@ -36,10 +36,7 @@ int main(void) {
                 printf("You have deposited %.2f $\n", deposit_amount);
                 balance = balance + deposit_amount;
                 logs_array[length] = deposit_amount;
-                check_max(logs_array, length, LOGS_SIZE);
-                if (check_max(logs_array, length, LOGS_SIZE) == 0) {
-                    length++;
-                }
+                length = check_max(logs_array, length, LOGS_SIZE);
             }
             break;
         case 'W':
@@ -52,10 +49,7 @@ int main(void) {
                 printf("You have withdrawn %.2f $\n", withdraw_amount);
                 balance = balance - withdraw_amount;
                 logs_array[length] = -withdraw_amount;
-                check_max(logs_array, length, LOGS_SIZE);
-                if (check_max(logs_array, length, LOGS_SIZE) == 0) {
-                    length++;
-                }
+                length = check_max(logs_array, length, LOGS_SIZE);
             }
             break;
         case 'L':
@@ -89,9 +83,9 @@ int check_max(float arr[], int actual_size, int max_size) {
         for (int i = 1; i < max_size; i++) {
             arr[i - 1] = arr[i];
         }
-        return 1;
+        return actual_size + 1;
     }
-    return 0;
+    return actual_size;
 }
 
 void print_logs(float arr[], int size) {
