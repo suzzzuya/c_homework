@@ -4,142 +4,159 @@
 #include <stdlib.h>
 #include <time.h>
 
-void print_field(int arr[], int size, int columns, int choice);
-int place_mine(int arr[], int size);
-int convert(char player_row, int player_column);
+enum Cells {
+	OPENED_CELL,
+	CLOSED_CELL
+};
+
+void print_field(int arr[], int size, int width, int height);
+void gen_field(int arr[], int mineIndeces[], int size, int mineCount, int mine);
+void check_around(int arr[], int index, int x, int y, int width, int mine);
 
 int main(void) {
 	srand(time(0));
 
-	const int SIZE = 9;
-	int columns = 3;
-	int array[SIZE] = { 0 };
+	const int WIDTH = 3;
+	const int HEIGHT = 3;
+	const int SIZE = WIDTH * HEIGHT;
 
-	char player_row = 0;
-	int player_column = 0;
+	int mine = -49;
+	const int mineCount = SIZE / 10 + 1;
 
-	int player_choice = -1;
-	int mine_choice = -2;
+	int mineIndeces[mineCount] = { 0 };
+	int field[SIZE] = { 0 };
 
-	for (int i = 0; i < SIZE; i++) {
-		array[i] = '.';
-	}
+	int x = 0;
+	int y = 0;
 
-	int i = 1;
+	int index = 0;
+	
+	gen_field(field, mineIndeces, SIZE, mineCount, mine);
+	print_field(field, SIZE, WIDTH, HEIGHT);
 
-	puts("\tWELCOME TO THE MINESWEEPER!\n");
+	while (1) {
+		puts("\nType letter and number with space, please.");
 
-	print_field(array, SIZE, columns, player_choice);
+  		scanf(" %c %d", &x, &y);
+		
+		x = x - 'a';
+		y = y - 1;
 
-	while (player_choice != mine_choice || i < 9) {
-		while (player_row < 'a' || player_row > 'c') {
-			puts("\nEnter row letter, please.\n");
-			scanf(" %c", &player_row);
+		index = x + y * WIDTH;
+		
+		if (field[index] == mine) {
+			mine = -1;
+			for (int i = 0; i < mineCount; i++) {
+				field[mineIndeces[i]] = mine;
+			}
+			system("cls");
+			print_field(field, SIZE, WIDTH, HEIGHT);
+			puts("You lost");
+			break;
 		}
 
-		while (player_column < 1 || player_column > 3) {
-			puts("\nEnter column number, please.\n");
-			scanf(" %d", &player_column);
+		for (int i = 0; i < SIZE; i++) {
+			if (field[i] > 0 || field[i] == mine) {
+				breakLoop = true;
+			}
 		}
 
-		player_choice = convert(player_row, player_column);
-		mine_choice = place_mine(array, SIZE);
+		int tmp = 0;
+		field[index] = 0;
 
-		print_field(array, SIZE, columns, player_choice);
-
-		i++;
-		player_row = 0;
-		player_column = 0;
+		print_field(field, SIZE, WIDTH, HEIGHT);
+		check_around(field, index, x, y, WIDTH, mine);
+		system("cls");
+		print_field(field, SIZE, WIDTH, HEIGHT);
 	}
-	
-	puts("\n\tXXXX YOU LOST XXXX\n");
-	
 	return 0;
 }
 
-int convert(char row, int column) {
-	switch (row) {
-	case 'a':
-		if (column == 1) {
-			return 0;
-			break;
+void check_around(int arr[], int index, int x, int y, int width, int mine) {
+	int tmp = 0;
+	if (arr[x - 1 + y * width] == mine) { // left
+		if (x >= 0) {
+			tmp++;
+			arr[index] = tmp;
 		}
-		if (column == 2) {
-			return 3;
-			break;
+	}
+	if (arr[x + 1 + y * width] == mine) { // right
+		tmp++;
+		arr[index] = tmp;
+	}
+	if (arr[x + (y - 1) * width] == mine) { // down
+		if (y - 1 >= 0) {
+			tmp++;
+			arr[index] = tmp;
 		}
-		if (column == 3) {
-			return 6;
-			break;
+	}
+	if (arr[x + (y + 1) * width] == mine) { // up
+		tmp++;
+		arr[index] = tmp;
+	}
+	if (arr[x + 1 + (y - 1) * width] == mine) {
+		if (y - 1 >= 0) {
+			tmp++;
+			arr[index] = tmp;
 		}
-	case 'b':
-		if (column == 1) {
-			return 1;
-			break;
+	}
+	if (arr[x - 1 + (y - 1) * width] == mine) {
+		if (y - 1 >= 0 && x - 1 >= 0) {
+			tmp++;
+			arr[index] = tmp;
 		}
-		if (column == 2) {
-			return 4;
-			break;
+	}
+	if (arr[x + 1 + (y + 1) * width] == mine) {
+		tmp++;
+		arr[index] = tmp;
+	}
+	if (arr[x - 1 + (y + 1) * width] == mine) {
+		if (x - 1 >= 0) {
+			tmp++;
+			arr[index] = tmp;
 		}
-		if (column == 3) {
-			return 7;
-			break;
-		}
-	case 'c':
-		if (column == 1) {
-			return 2;
-			break;
-		}
-		if (column == 2) {
-			return 5;
-			break;
-		}
-		if (column == 3) {
-			return 8;
-			break;
-		}
-	default:
-		break;
 	}
 }
 
-int place_mine(int arr[], int size) {
-	int gen_row = 1 + rand() % 3;
-	switch (gen_row) {
-	case 1:
-		gen_row = 'a';
-		break;
-	case 2:
-		gen_row = 'b';
-		break;
-	case 3:
-		gen_row = 'c';
-		break;
+void gen_field(int arr[], int mineIndeces[], int size, int mineCount, int mine) {
+	int gen_rand = 0;
+	for (int i = 0; i < size; i++) {
+		arr[i] = -50;
 	}
-	int gen_column = 1 + rand() % 3;
-
-	return convert(gen_row, gen_column);
+	for (int i = 0; i < mineCount; i++) {
+		gen_rand = rand() % size;
+		arr[gen_rand] = mine;
+		mineIndeces[i] = gen_rand;
+	}
 }
 
-void print_field(int arr[], int size, int columns, int choice) {
-	printf("   ");
-	for (int i = 'a'; i <= 'c'; i++) {
-		printf(" %c ", i);
+void print_field(int arr[], int size, int width, int height) {
+	printf("  ");
+	for (int i = 0, xLetter = 'a'; i < width; i++, xLetter++) {
+		printf(" %c ", xLetter);
 	}
 	printf("\n");
-	printf(" %d ", 1);
-	for (int i = 1, j = 2; i <= size; i++) {
-		if (choice != -1) {
-			arr[choice] = '1';
-		}
-		printf(" %c ", arr[i - 1]);
-		if (i % columns == 0) {
-			printf("\n");
-			if (j <= 3) {
-				printf(" %d ", j);
-				j++;
+	int j = 1;
+	printf("%d ", j);
+	for (int i = 0; i < size; i++) {
+		switch (arr[i]) {
+		case -49:
+		case -50:
+			printf("[.]");
+			break;
+		case -1:
+			printf("[X]");
+			break;
+		default:
+			if (arr[i] >= 0 && arr[i] < 9) {
+				printf("[%d]", arr[i]);
 			}
+			break;
+		}
+		if ((i + 1) % width == 0 && j < height)  {
+			j++;
+			printf("\n%d ", j);
 		}
 	}
-	
+	printf("\n");
 }
