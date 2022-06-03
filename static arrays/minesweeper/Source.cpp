@@ -43,7 +43,7 @@ int main(void) {
 		y = y - 1;
 
 		index = x + y * WIDTH;
-		
+
 		if (field[index] == mine) {
 			mine = -1;
 			for (int i = 0; i < mineCount; i++) {
@@ -55,11 +55,27 @@ int main(void) {
 			break;
 		}
 
+		int closedCells = 0;
+
 		for (int i = 0; i < SIZE; i++) {
-			if (field[i] > 0 || field[i] == mine) {
-				breakLoop = true;
+			if (field[i] == -50) {
+				closedCells++;
 			}
 		}
+
+		if (closedCells == 1) {
+			mine = -1;
+			for (int i = 0; i < mineCount; i++) {
+				field[mineIndeces[i]] = mine;
+			}
+			check_around(field, index, x, y, WIDTH, mine);
+			system("cls");
+			print_field(field, SIZE, WIDTH, HEIGHT);
+			puts("You won !");
+			break;
+		}
+
+		
 
 		int tmp = 0;
 		field[index] = 0;
