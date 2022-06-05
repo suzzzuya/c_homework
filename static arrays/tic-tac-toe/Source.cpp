@@ -4,78 +4,130 @@
 #include <stdlib.h>
 #include <time.h>
 
-enum Choices {
-	CROSSES,
-	NOUGHTS,
-	BLANK
+enum Cells {
+	CROSSES = 1,
+	NOUGHTS = -1,
+	BLANK = 0
 };
 
 void fill_array(int size, int arr[]);
-void print_field(int width, int size, int arr[]);
+void print_field(int side, int size, int arr[]);
+void player_move(int index, int choice);
+int check_win_condition(int side, int arr[]);
 
-const int WIDTH = 3;
-const int HEIGTH = 3;
-const int SIZE = WIDTH * HEIGTH;
+const int SIDE = 3;
+const int SIZE = SIDE * SIDE;
 
 int field[SIZE] = { 0 };
 
 int main(void) {
 	fill_array(SIZE, field);
 
-	printf("Welcome to TIC-TAC-TOES\n");
+	printf("\tWelcome to TIC-TAC-TOES\n");
 
-	int player_choice = 1;
-	int ai_choice = 1;
+	int gameModeChoice = 0;
 
-	while (player_choice != 'x' &&
-		player_choice != 'X' &&
-		player_choice != 'o' &&
-		player_choice != 'O' &&
-		player_choice != '0') {
-
-		printf("Would you like to play as Xs or Os ?\n");
-		scanf(" %c", &player_choice);
+	while (gameModeChoice < 1 || gameModeChoice > 2) {
+		puts("\n\tCHOOSE YOUR GAME MODE");
+		puts("[1]Player vs Player\n[2]Player vs AI\n\n");
+		scanf("%d", &gameModeChoice);
 	}
 
-	if (player_choice == 'x' || player_choice == 'X') {
-		player_choice = CROSSES;
-		ai_choice = NOUGHTS;
-	} else {
-		player_choice = NOUGHTS;
-		ai_choice = CROSSES;
-	}
+	int player_choice = CROSSES;
+	int ai_choice = NOUGHTS;
 
 	printf("\n");
 
-	while (1) {
-		print_field(WIDTH, SIZE, field);
+	for (int i = 0; i < SIZE; i++) {
+		print_field(SIDE, SIZE, field);
 
 		int player_index = -1;
 		int ai_index = -1;
 
-		do {
-			printf("\nIt's your turn, choose any number above\n");
-			scanf("%d", &player_index);
-			player_index = player_index - 1;
-		} while ((player_index < 1 || player_index > 9) && field[player_index] != BLANK);
-		field[player_index] = player_choice;
-
-		do {
-			ai_index = rand() % SIZE;
-		} while (field[ai_index] != BLANK);
-		field[ai_index] = ai_choice;
-
-		int blankCount = 0;
-		for (int i = 0; i < SIZE; i++) {
-			if (field[i] == BLANK) {
-				blankCount++;
+		if (i % 2 == 0) {
+			puts("Now it's crosses turn");
+			player_move(player_index, player_choice);
+		}
+		else {
+			switch (gameModeChoice) {
+			case 1:
+				puts("Now it's zeroes turn");
+				player_move(player_index, ai_choice);	
+				break;
+			case 2:
+				puts("Now it's zeroes turn");
+				do {
+					ai_index = rand() % SIZE;
+				} while (field[ai_index] != BLANK);
+				field[ai_index] = ai_choice;
+				break;
+			default:
+				break;
 			}
 		}
-		if (blankCount == 0) {
+		print_field(SIDE, SIZE, field);
+
+		if (check_win_condition(SIDE, field) == -3) {
+			print_field(SIDE, SIZE, field);
+			puts("\n\tZEROES WON !");
+			break;
+		} else if (check_win_condition(SIDE, field) == 3) {
+			print_field(SIDE, SIZE, field);
+			puts("\n\tCROSSES WON !");
+			break;
+		}
+		if (i == SIZE - 1) {
+			print_field(SIDE, SIZE, field);
+			puts("\n\tDRAW !");
 			break;
 		}
 	}
  	return 0;
+}
+
+int check_win_condition(int side, int arr[]) {
+	int sum = 0;
+	for (int y = 0; y < side; y++) { // horizontal
+		for (int x = 0; x < side; x++) {
+			sum += arr[y * side + x];
+		}
+		if (sum == 3 || sum == -3) {
+			return sum;
+		}
+		sum = 0;
+	}
+	for (int x = 0; x < side; x++) { // vertical
+		for (int y = 0; y < side; y++) {
+			sum += arr[y * side + x];
+		}
+		if (sum == 3 || sum == -3) {
+			return sum;
+		}
+		sum = 0;
+	}
+	for (int x = 0, y = 0; x < side; x++, y++) { // diagonal
+		sum += arr[y * side + x];
+		if (sum == 3 || sum == -3) {
+			return sum;
+		}
+	}
+	sum = 0;
+	for (int x = side - 1, y = 0; y < side; x--, y++) { // diagonal
+		sum += arr[y * side + x];
+		if (sum == 3 || sum == -3) {
+			return sum;
+		}
+	}
+	sum = 0;
+	return 0;
+}
+
+void player_move(int index, int choice) {
+	do {
+		scanf("%d", &index);
+		index = index - 1;
+	} while ((index < 1 || index > 9) && field[index] != BLANK);
+	field[index] = choice;
 }
 
 void fill_array(int size, int arr[]) {
@@ -84,7 +136,7 @@ void fill_array(int size, int arr[]) {
 	}
 }
 
-void print_field(int width, int size, int arr[]) {
+void print_field(int side, int size, int arr[]) {
 	system("cls");
 	printf("\n\t");
 	for (int i = 0; i < size; i++) {
@@ -99,7 +151,7 @@ void print_field(int width, int size, int arr[]) {
 			printf("[%d]", i + 1);
 			break;
 		}
-		if ((i + 1) % width == 0) {
+		if ((i + 1) % side == 0) {
 			printf("\n\t");
 		}
 	}
