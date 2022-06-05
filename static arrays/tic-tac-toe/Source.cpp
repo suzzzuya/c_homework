@@ -21,6 +21,8 @@ const int SIZE = SIDE * SIDE;
 int field[SIZE] = { 0 };
 
 int main(void) {
+	srand(time(0));
+
 	fill_array(SIZE, field);
 
 	printf("\tWelcome to TIC-TAC-TOES\n");
