@@ -49,6 +49,7 @@ int main(void) {
 		switch (userInput) {
 		case 'N':
 		case 'n':
+			system("cls");
 			puts("Enter your weight, please");
 			scanf("%f", &weight);
 
@@ -58,9 +59,12 @@ int main(void) {
 			diffLogs[index] = difference;
 
 			index++; // moves to next entry
+			system("cls");
 			break;
 		case 'R':
 		case 'r':
+			system("cls");
+			puts("\tLogs:\n");
 			puts("Enter entry number to remove\n");
 			show_logs(weightLogs, diffLogs, SIZE, difference);
 
@@ -75,6 +79,8 @@ int main(void) {
 			break;
 		case 'L':
 		case 'l':
+			system("cls");
+			puts("\tLogs:\n");
 			show_logs(weightLogs, diffLogs, SIZE, difference);
 			break;
 		case 'E':
