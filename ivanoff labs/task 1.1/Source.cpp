@@ -51,9 +51,6 @@ int main(void) {
 
 float variant_1(float x, int n) {
 	float res = 0;
-	if (n < 0) {
-		return res;
-	}
 	if (x < 4) {
 		for (int i = 1; i < n; i++) {
 			res += pow(sin(0.5 * x - 2), i);
@@ -100,7 +97,7 @@ float variant_4(float x, int n) {
 	float res = 0;
 	if (x < 7) {
 		for (int k = 1; k < n; k++) {
-			res += pow(k, sin(x - 7.0));
+			res += pow(sin(x - 7.0), k);
 		}
 		res = 3.0 * x + res;
 		return res;
@@ -121,7 +118,7 @@ float variant_5(float x, int n) {
 		return res;
 	}
 	if (x > 3) {
-		res = 22 + pow (3.0 * E, 3.0 - x);
+		res = 22 + 3 * pow(E, 3.0 - x);
 		return res;
 	}
 }
@@ -131,12 +128,12 @@ float variant_6(float x, int n) {
 	if (x <= 3) {
 		for (int k = 1; k < n; k++) {
 			res += pow(sin(3.0 * x - 9.0), k);
-			res = 2.0 * x + 0.5 + res;
 			return res;
 		}
+		res = 2.0 * x + 0.5 * res;
 	}
 	if (x > 3) {
-		res = pow(1.0 / 3.0, (x - 2.0) * (x - 2.0)) + 5.0;
+		res = pow((x - 2.0) * (x - 2.0), 1.0 / 3.0) + 5.0;
 		return res;
 	}
 }
@@ -188,7 +185,7 @@ float variant_10(float x, int n) {
 	float res = 0;
 	if (x <= 5) {
 		for (int k = 1; k < n; k++) {
-			pow(sin(0.5 * x - 2.5), k);
+			res *= pow(sin(0.5 * x - 2.5), k);
 		}
 		res = x + res;
 		return res;
@@ -238,7 +235,7 @@ float variant_13(float x, int n) {
 		return res;
 	}
 	if (x >= 4) {
-		res = 4.0 * cos(x - 4.0) + 14;
+		res = 4.0 * cos(x - 4.0) + 14.0;
 		return res;
 	}
 }
@@ -260,7 +257,7 @@ float variant_15(float x, int n) {
 	float res = 0;
 	if (x <= 8) {
 		for (int k = 1; k < n; k++) {
-			res *= k + pow(E, 1.0 - 0.125 * x) - 1;
+			res *= (k + pow(E, 1.0 - 0.125 * x) - 1);
 		}
 		res = 10.0 + res;
 		return res;
@@ -303,7 +300,7 @@ float variant_17(float x, int n) {
 float variant_18(float x, int n) {
 	float res = 0;
 	if (x < 7) {
-		res = pow(3.5 - 0.5 * x, E) + 20.0;
+		res = pow(E, 3.5 - 0.5 * x) + 20.0;
 		return res;
 	}
 	if (x >= 7) {
