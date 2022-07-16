@@ -2,14 +2,13 @@
 #include <math.h>
 
 int main(void) {
-    const int x1 = 4;
-    const int y1 = -2;
-
-    const int x2 = 2;
-    const int y2 = 6;
-
-    const int x3 = 4;
-    const int y3 = -3;  
+    int x1, x2, x3, y1, y2, y3 = 0;
+    puts("Enter first pair of coordinates: ");
+    scanf("%d %d", &x1, &y1);
+    puts("Enter second pair of coordinates: ");
+    scanf("%d %d", &x2, &y2);
+    puts("Enter third pair of coordinates: ");
+    scanf("%d %d", &x3, &y3);
     
     if (x1 == x2 && x2 == x3 || y1 == y2 && y2 == y3) {
       puts ("It can't be a triangle");
@@ -19,17 +18,17 @@ int main(void) {
       float length_1 = 0; // first side
       length_1 = pow((x1 - x2), 2) + pow((y1 - y2), 2);
       length_1 = sqrt(length_1);
-      printf("%.2f\n", length_1);
+      printf("Length 1: %.2f\n", length_1);
 
       float length_2 = 0; // second side
       length_2 = pow((x2 - x3), 2) + pow((y2 - y3), 2);
       length_2 = sqrt(length_2);
-      printf("%.2f\n", length_2);
+      printf("Length 2: %.2f\n", length_2);
 
       float length_3 = 0; // third side
       length_3 = pow((x1 - x3), 2) + pow((y1 - y3), 2);
       length_3 = sqrt(length_3);
-      printf("%.2f\n", length_3);
+      printf("Length 3: %.2f\n", length_3);
 
       float perimetr = 0;
       perimetr = length_1 + length_2 + length_3;
