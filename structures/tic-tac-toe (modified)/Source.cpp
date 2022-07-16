@@ -19,7 +19,7 @@ void fill_array(int size, int field[]);
 void print_field(int side, int size, int field[]);
 void player_move(int index, Cells choice, Move history[], int moveNumber);
 int check_win_condition(int side, int field[]);
-void print_history(int size, int field[], Move history[]);
+void print_history(int size, int field[], Move history[], int moveNumber);
 
 const int SIDE = 3;
 const int SIZE = SIDE * SIDE;
@@ -47,8 +47,8 @@ int main(void) {
 	Cells ai_choice = ZEROES;
 
 	printf("\n");
-
-	for (int moveNumber = 0; moveNumber < SIZE; moveNumber++) {
+	int moveNumber = 0;
+	for (;moveNumber < SIZE;) {
 		print_field(SIDE, SIZE, field);
 
 		int player_index = -1;
@@ -57,11 +57,13 @@ int main(void) {
 		if (moveNumber % 2 == 0) {
 			puts("Now it's crosses turn");
 			player_move(player_index, player_choice, history, moveNumber);
+			moveNumber++;
 		} else {
 			switch (gameModeChoice) {
 			case 1:
 				puts("\nNow it's zeroes turn");
 				player_move(player_index, ai_choice, history, moveNumber);
+				moveNumber++;
 				break;
 			case 2:
 				puts("\nNow it's zeroes turn");
@@ -69,6 +71,7 @@ int main(void) {
 					ai_index = rand() % SIZE;
 				} while (field[ai_index] != BLANK);
 				field[ai_index] = ai_choice;
+				moveNumber++;
 				break;
 			default:
 				break;
@@ -93,11 +96,11 @@ int main(void) {
 	}
 	printf("\n");
 	puts("\tHISTORY\n");
-	print_history(SIZE, field, history);
+	print_history(SIZE, field, history, moveNumber);
 	return 0;
 }
 
-void print_history(int size, int field[], Move history[]) {
+void print_history(int size, int field[], Move history[], int moveNumber) {
 	for (int i = 0; i < size; i++) {
 		switch (history[i].choice) {
 			case CROSSES:
